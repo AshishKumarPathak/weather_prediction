@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .container h1 {
+            text-align: center;
+        }
+        .container label, .container select, .container button {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Prediction</h1>
+        <form id="prediction-form">
+            <label for="outlook">Outlook:</label>
+            <select id="outlook" name="outlook">
+                <option value="Sunny">Sunny</option>
+                <option value="Overcast">Overcast</option>
+                <option value="Rainy">Rainy</option>
+            </select>
+            <label for="temp">Temperature:</label>
+            <select id="temp" name="temp">
+                <option value="Hot">Hot</option>
+                <option value="Mild">Mild</option>
+                <option value="Cool">Cool</option>
+            </select>
+            <label for="humidity">Humidity:</label>
+            <select id="humidity" name="humidity">
+                <option value="High">High</option>
+                <option value="Normal">Normal</option>
+            </select>
+            <label for="windy">Windy:</label>
+            <select id="windy" name="windy">
+                <option value="f">No</option>
+                <option value="t">Yes</option>
+            </select>
+            <button type="button" onclick="makePrediction()">Predict</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function makePrediction() {
+            const formData = new FormData(document.getElementById('prediction-form'));
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 'Play: ' + data.prediction;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
